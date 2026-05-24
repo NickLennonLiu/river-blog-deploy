@@ -10,7 +10,27 @@
   <rights>All rights reserved 2026, River June</rights>
   <subtitle>Anything but useful</subtitle>
   <title>Junetheriver's Blog</title>
-  <updated>2026-05-07T08:08:25.298Z</updated>
+  <updated>2026-05-24T08:45:16.746Z</updated>
+  <entry>
+    <author>
+      <name>River June</name>
+    </author>
+    <category term="Notes" scheme="https://blog.river9.top/categories/Notes/"/>
+    <category term="Synology" scheme="https://blog.river9.top/tags/Synology/"/>
+    <category term="SSH" scheme="https://blog.river9.top/tags/SSH/"/>
+    <category term="DSM" scheme="https://blog.river9.top/tags/DSM/"/>
+    <category term="NAS" scheme="https://blog.river9.top/tags/NAS/"/>
+    <id>https://blog.river9.top/2026/05/24/fix-synology-ssh-publickey-acl/</id>
+    <link href="https://blog.river9.top/2026/05/24/fix-synology-ssh-publickey-acl/"/>
+    <published>2026-05-24T08:44:28.000Z</published>
+    <summary>
+      <![CDATA[<h2 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h2>
+<p>群晖（Synology DSM）开启 SSH 服务后，使用公钥登录仍然失败，客户端只看到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span]]>
+    </summary>
+    <title>解决 Synology SSH 连接不上的问题</title>
+    <updated>2026-05-24T08:45:16.746Z</updated>
+  </entry>
   <entry>
     <author>
       <name>River June</name>

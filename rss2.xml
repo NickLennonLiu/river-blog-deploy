@@ -5,9 +5,25 @@
     <link>https://blog.river9.top/</link>
     <description>Anything but useful</description>
     <copyright>All rights reserved 2026, River June</copyright>
-    <lastBuildDate>Thu, 07 May 2026 08:08:25 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 24 May 2026 08:45:16 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <atom:link href="https://blog.river9.top/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>解决 Synology SSH 连接不上的问题</title>
+      <link>https://blog.river9.top/2026/05/24/fix-synology-ssh-publickey-acl/</link>
+      <description>
+        <![CDATA[<h2 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h2>
+<p>群晖（Synology DSM）开启 SSH 服务后，使用公钥登录仍然失败，客户端只看到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span]]>
+      </description>
+      <author>River June</author>
+      <category domain="https://blog.river9.top/categories/Notes/">Notes</category>
+      <category domain="https://blog.river9.top/tags/Synology/">Synology</category>
+      <category domain="https://blog.river9.top/tags/SSH/">SSH</category>
+      <category domain="https://blog.river9.top/tags/DSM/">DSM</category>
+      <category domain="https://blog.river9.top/tags/NAS/">NAS</category>
+      <pubDate>Sun, 24 May 2026 08:44:28 GMT</pubDate>
+    </item>
     <item>
       <title>五一使用 Codex 做 Blender MMD 自动化的一次尝试</title>
       <link>https://blog.river9.top/2026/05/07/blender-mmd-codex-mayday/</link>

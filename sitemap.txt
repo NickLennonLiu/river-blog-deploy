@@ -1,3 +1,5 @@
+https://blog.river9.top/2026/05/24/fix-synology-ssh-publickey-acl/
+https://blog.river9.top/images/album/metadata.json
 https://blog.river9.top/works/index.html
 https://blog.river9.top/2026/04/30/gee-web-learning-notes-2026-04-30/
 https://blog.river9.top/2026/05/07/blender-mmd-codex-mayday/
@@ -23,5 +25,9 @@ https://blog.river9.top/tags/Go/
 https://blog.river9.top/tags/Gee/
 https://blog.river9.top/tags/Web-Framework/
 https://blog.river9.top/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/
+https://blog.river9.top/tags/Synology/
+https://blog.river9.top/tags/SSH/
+https://blog.river9.top/tags/DSM/
+https://blog.river9.top/tags/NAS/
 https://blog.river9.top/categories/Art/
 https://blog.river9.top/categories/Notes/

@@ -1,0 +1,177 @@
+<!doctype html><html lang=zh-CN><meta charset=utf-8><meta content="width=device-width,initial-scale=1" name=viewport><title>Album · Junetheriver</title><meta content="River's photo album with map, timeline, and tag views." name=description><link href=/vendor/leaflet.css rel=stylesheet><link href=/vendor/MarkerCluster.css rel=stylesheet><link href=/vendor/MarkerCluster.Default.css rel=stylesheet><style>:root {
+      --bg: #f6f7fb;
+      --panel: #ffffff;
+      --text: #17202a;
+      --muted: #667085;
+      --line: #d9e0e8;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.12);
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: radial-gradient(circle at top left, #eef4ff 0, var(--bg) 38%, #f8fafc 100%);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: inherit; }
+    .page { max-width: 1220px; margin: 0 auto; padding: 30px 22px 46px; }
+    .topbar { display: flex; justify-content: space-between; gap: 18px; align-items: center; margin-bottom: 34px; }
+    .back { color: var(--accent); font-weight: 700; font-size: 14px; text-decoration: none; border-bottom: 1px solid rgba(37, 99, 235, 0.35); }
+    .hint { color: var(--muted); font-size: 14px; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 22px; align-items: end; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+    h1 { margin: 0; font-size: clamp(42px, 8vw, 96px); line-height: .9; letter-spacing: -.055em; }
+    .subtitle { margin: 12px 0 0; color: var(--muted); font-size: 16px; line-height: 1.7; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+    .tab, .tag-filter { border: 1px solid var(--line); background: rgba(255,255,255,.78); color: var(--text); border-radius: 999px; padding: 10px 15px; font-weight: 750; cursor: pointer; }
+    .tab.active, .tag-filter.active { border-color: rgba(37,99,235,.45); background: var(--accent-soft); color: var(--accent); }
+    .view { display: none; }
+    .view.active { display: block; }
+    .panel { overflow: hidden; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+    #map { height: min(68vh, 680px); min-height: 420px; }
+    .empty { padding: 28px; color: var(--muted); line-height: 1.8; }
+    .timeline-layout { display: grid; grid-template-columns: minmax(0, 1fr) 116px; gap: 18px; align-items: start; }
+    .timeline-flow { display: grid; gap: 22px; }
+    .time-section { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 18px; align-items: start; }
+    .time-label { position: sticky; top: 14px; color: var(--text); font-size: 18px; font-weight: 850; line-height: 1.25; }
+    .time-label span { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .timeline-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 7px; }
+    .timeline-photo { display: block; aspect-ratio: 1 / 1; border: 0; padding: 0; border-radius: 8px; overflow: hidden; background: #e5e7eb; cursor: zoom-in; }
+    .timeline-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 160ms ease; }
+    .timeline-photo:hover img { transform: scale(1.035); }
+    .timeline-index { position: sticky; top: 14px; display: grid; gap: 7px; max-height: 78vh; overflow: auto; padding: 12px; background: rgba(255,255,255,.78); border: 1px solid var(--line); border-radius: 16px; }
+    .timeline-index a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 800; }
+    .timeline-index a:hover { color: var(--accent); }
+    .tagbar { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 18px; }
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+    .photo-card { overflow: hidden; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); box-shadow: 0 10px 28px rgba(15,23,42,.08); cursor: zoom-in; }
+    .photo-card img { display: block; width: 100%; height: 220px; object-fit: cover; }
+    .photo-info { padding: 11px 12px 13px; }
+    .photo-title { margin: 0 0 6px; font-size: 14px; font-weight: 800; }
+    .photo-meta { color: var(--muted); font-size: 12px; }
+    .leaflet-popup-content img { width: 180px; border-radius: 10px; display: block; margin-bottom: 8px; }
+    dialog { width: min(1120px, 94vw); border: 0; border-radius: 18px; padding: 0; background: #030712; color: white; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+    dialog::backdrop { background: rgba(3,7,18,.72); backdrop-filter: blur(8px); }
+    .lightbox { position: relative; }
+    .lightbox img { width: 100%; max-height: 84vh; object-fit: contain; display: block; }
+    .close { position: absolute; right: 12px; top: 12px; border: 0; border-radius: 999px; background: rgba(255,255,255,.9); color: #111827; width: 36px; height: 36px; cursor: pointer; font-size: 22px; }
+    .caption { padding: 12px 16px 16px; color: #d1d5db; font-size: 14px; }
+    @media (max-width: 900px) { .timeline-layout { grid-template-columns: 1fr; } .timeline-index { position: static; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); } }
+    @media (max-width: 720px) { .page { padding: 22px 14px 36px; } .topbar, .hero { display: block; } #map { min-height: 360px; } .photo-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); } .time-section { grid-template-columns: 1fr; gap: 10px; } .time-label { position: static; } .timeline-grid { grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); } }</style><body><main class=page><nav aria-label="Page navigation" class=topbar><a class=back href=/>Back to blog</a></nav><header class=hero><div><h1>River's Album</h1></div></header><div class=tabs role=tablist><button class="tab active" data-view=map-view>World Map</button><button class=tab data-view=timeline-view>Timeline</button><button class=tab data-view=tags-view>Tags</button></div><section class="view active" id=map-view><div class=panel><div id=map></div><div class=empty hidden id=map-empty></div></div></section><section class=view id=timeline-view><div class=timeline-layout><div class=timeline-flow id=timeline></div><nav aria-label="Timeline index" class=timeline-index id=timeline-index></nav></div></section><section class=view id=tags-view><div class=tagbar id=tagbar></div><div class=photo-grid id=photo-grid></div></section></main><dialog id=lightbox><div class=lightbox><button aria-label=Close class=close>×</button><img alt><div class=caption></div></div></dialog><script>window.ALBUM_PHOTOS = [{"id":"img-3445","title":"IMG 3445","src":"https://111.229.107.158:38181/i/2026/05/24/r80p1j-0.jpg","original":"https://111.229.107.158:38181/i/2026/05/24/r80p1j-0.jpg","date":"2026-05-24T08:33:18.461Z","year":2026,"tags":["精选"],"featured":true,"note":"","latitude":null,"longitude":null,"width":null,"height":null},{"id":"img-3373","title":"IMG 3373","src":"https://111.229.107.158:38181/i/2026/05/24/r80ccv-0.jpg","original":"https://111.229.107.158:38181/i/2026/05/24/r80ccv-0.jpg","date":"2026-05-24T08:33:18.459Z","year":2026,"tags":["精选"],"featured":true,"note":"","latitude":null,"longitude":null,"width":1800,"height":2400},{"id":"img-3335","title":"IMG 3335","src":"https://111.229.107.158:38181/i/2026/05/24/r7zmp4-0.jpg","original":"https://111.229.107.158:38181/i/2026/05/24/r7zmp4-0.jpg","date":"2026-05-24T08:33:18.457Z","year":2026,"tags":["精选"],"featured":true,"note":"","latitude":null,"longitude":null,"width":null,"height":null},{"id":"img-2747","title":"IMG 2747","src":"https://111.229.107.158:38181/i/2026/05/24/r7qctn-0.jpg","original":"https://111.229.107.158:38181/i/2026/05/24/r7qctn-0.jpg","date":"2026-05-24T08:33:18.454Z","year":2026,"tags":["精选"],"featured":true,"note":"","latitude":null,"longitude":null,"width":1800,"height":2400},{"id":"img-2624","title":"IMG 2624","src":"https://111.229.107.158:38181/i/2026/05/24/r7oubv-0.jpg","original":"https://111.229.107.158:38181/i/2026/05/24/r7oubv-0.jpg","date":"2026-05-24T08:33:18.453Z","year":2026,"tags":["精选"],"featured":true,"note":"","latitude":null,"longitude":null,"width":null,"height":null}];</script><script src=/vendor/leaflet.js></script><script src=/vendor/leaflet.markercluster.js></script><script>const photos = window.ALBUM_PHOTOS || [];
+    const fmt = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+    const dateLabel = photo => photo.date ? fmt.format(new Date(photo.date)) : 'Unknown date';
+    let mapInstance;
+
+    document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(item => item.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(item => item.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.view).classList.add('active');
+      if (tab.dataset.view === 'map-view') setTimeout(() => mapInstance && mapInstance.invalidateSize(), 80);
+      if (tab.dataset.view === 'timeline-view') setTimeout(() => document.getElementById('timeline-view').scrollIntoView({ block: 'nearest' }), 80);
+    }));
+
+    function initMap() {
+      const geotagged = photos.filter(photo => Number.isFinite(photo.latitude) && Number.isFinite(photo.longitude));
+      if (!window.L || !window.L.markerClusterGroup) {
+        document.getElementById('map').style.display = 'none';
+        const empty = document.getElementById('map-empty');
+        empty.hidden = false;
+        empty.textContent = '地图组件加载失败；请刷新或检查本地静态资源。';
+        return;
+      }
+      if (!geotagged.length) {
+        document.getElementById('map').style.display = 'none';
+        document.getElementById('map-empty').hidden = true;
+        return;
+      }
+      mapInstance = L.map('map', { scrollWheelZoom: false }).setView([25, 15], 2);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap' }).addTo(mapInstance);
+      const group = L.markerClusterGroup();
+      geotagged.forEach(photo => {
+        const marker = L.marker([photo.latitude, photo.longitude]);
+        marker.bindPopup('<img src="' + photo.src + '" alt=""><strong>' + escapeHtml(photo.title) + '</strong><br>' + dateLabel(photo));
+        group.addLayer(marker);
+      });
+      mapInstance.addLayer(group);
+      mapInstance.fitBounds(group.getBounds().pad(0.25));
+    }
+
+    function initTimeline() {
+      const container = document.getElementById('timeline');
+      const index = document.getElementById('timeline-index');
+      const groups = groupPhotosByMonth(photos);
+      if (!groups.length) {
+        container.innerHTML = '<div class="empty">还没有照片。</div>';
+        index.hidden = true;
+        return;
+      }
+      container.innerHTML = groups.map(group => '<section class="time-section" id="time-' + group.key + '"><h2 class="time-label">' + escapeHtml(group.label) + '<span>' + group.photos.length + ' photos</span></h2><div class="timeline-grid">' + group.photos.map(photo => '<button class="timeline-photo" data-id="' + escapeHtml(photo.id) + '" title="' + escapeHtml(photo.title + ' · ' + dateLabel(photo)) + '"><img src="' + photo.src + '" alt="' + escapeHtml(photo.title) + '" loading="lazy"></button>').join('') + '</div></section>').join('');
+      index.innerHTML = groups.map(group => '<a href="#time-' + group.key + '">' + escapeHtml(group.shortLabel) + '</a>').join('');
+      container.addEventListener('click', event => {
+        const button = event.target.closest('.timeline-photo');
+        if (!button) return;
+        const photo = photos.find(item => item.id === button.dataset.id);
+        if (photo) openLightbox(photo);
+      });
+    }
+
+    function groupPhotosByMonth(items) {
+      const sorted = [...items].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+      const groups = new Map();
+      sorted.forEach(photo => {
+        const date = photo.date ? new Date(photo.date) : new Date(0);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const key = year + '-' + String(month).padStart(2, '0');
+        if (!groups.has(key)) {
+          groups.set(key, {
+            key,
+            label: year + '年' + month + '月',
+            shortLabel: String(year).slice(2) + '/' + month,
+            photos: []
+          });
+        }
+        groups.get(key).photos.push(photo);
+      });
+      return [...groups.values()];
+    }
+
+    function initTags() {
+      const grid = document.getElementById('photo-grid');
+      const renderGrid = filter => {
+        const visible = filter === 'all' ? photos : photos.filter(photo => (photo.tags || []).includes(filter));
+        grid.innerHTML = visible.map(photo => '<article class="photo-card" data-id="' + escapeHtml(photo.id) + '"><img src="' + photo.src + '" alt="' + escapeHtml(photo.title) + '"><div class="photo-info"><p class="photo-title">' + escapeHtml(photo.title) + '</p><div class="photo-meta">' + dateLabel(photo) + ' · ' + (photo.tags || []).join(' / ') + '</div></div></article>').join('');
+      };
+      const tags = [...new Set(photos.flatMap(photo => photo.tags || []))].sort((a, b) => a.localeCompare(b, 'zh-CN'));
+      document.getElementById('tagbar').innerHTML = '<button class="tag-filter active" data-filter="all">All</button>' + tags.map(tag => '<button class="tag-filter" data-filter="' + escapeHtml(tag) + '">' + escapeHtml(tag) + '</button>').join('');
+      document.querySelectorAll('.tag-filter').forEach(button => button.addEventListener('click', () => {
+        document.querySelectorAll('.tag-filter').forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        renderGrid(button.dataset.filter);
+      }));
+      grid.addEventListener('click', event => {
+        const card = event.target.closest('.photo-card');
+        if (!card) return;
+        const photo = photos.find(item => item.id === card.dataset.id);
+        if (photo) openLightbox(photo);
+      });
+      renderGrid('all');
+    }
+
+    function openLightbox(photo) {
+      const dialog = document.getElementById('lightbox');
+      dialog.querySelector('img').src = photo.src;
+      dialog.querySelector('img').alt = photo.title;
+      dialog.querySelector('.caption').textContent = photo.title + ' · ' + dateLabel(photo);
+      dialog.showModal();
+    }
+
+    document.querySelector('.close').addEventListener('click', () => document.getElementById('lightbox').close());
+    document.getElementById('lightbox').addEventListener('click', event => { if (event.target.id === 'lightbox') event.target.close(); });
+    function escapeHtml(value) { return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char])); }
+    initMap();
+    initTimeline();
+    initTags();</script>
