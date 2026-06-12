@@ -5,9 +5,23 @@
     <link>https://blog.river9.top/</link>
     <description>Anything but useful</description>
     <copyright>All rights reserved 2026, River June</copyright>
-    <lastBuildDate>Sun, 24 May 2026 08:45:16 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2026 01:51:39 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <atom:link href="https://blog.river9.top/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Japari MMD 项目经验总结</title>
+      <link>https://blog.river9.top/2026/06/12/japari-mmd-project-notes/</link>
+      <description>
+        <![CDATA[<p><img data-src="https://111.229.107.158:38181/i/2026/06/12/fqfk25-0.png" alt="Pasted image 20260609223627" /></p>
+<p>视频链接：<span class="exturl"]]>
+      </description>
+      <author>River June</author>
+      <category domain="https://blog.river9.top/categories/Notes/">Notes</category>
+      <category domain="https://blog.river9.top/tags/Blender/">Blender</category>
+      <category domain="https://blog.river9.top/tags/MMD/">MMD</category>
+      <category domain="https://blog.river9.top/tags/%E5%8E%9F%E7%A5%9EMMD/">原神MMD</category>
+      <pubDate>Fri, 12 Jun 2026 01:41:57 GMT</pubDate>
+    </item>
     <item>
       <title>解决 Synology SSH 连接不上的问题</title>
       <link>https://blog.river9.top/2026/05/24/fix-synology-ssh-publickey-acl/</link>

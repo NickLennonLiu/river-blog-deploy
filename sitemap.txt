@@ -1,3 +1,4 @@
+https://blog.river9.top/2026/06/12/japari-mmd-project-notes/
 https://blog.river9.top/videos/index.html
 https://blog.river9.top/works/index.html
 https://blog.river9.top/2026/05/24/fix-synology-ssh-publickey-acl/
@@ -29,5 +30,6 @@ https://blog.river9.top/tags/SSH/
 https://blog.river9.top/tags/DSM/
 https://blog.river9.top/tags/NAS/
 https://blog.river9.top/tags/Hexo/
+https://blog.river9.top/tags/%E5%8E%9F%E7%A5%9EMMD/
 https://blog.river9.top/categories/Art/
 https://blog.river9.top/categories/Notes/
